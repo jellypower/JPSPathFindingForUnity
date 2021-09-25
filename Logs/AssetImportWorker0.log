@@ -500,3 +500,43 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 71.265530 seconds.
+  path: Assets/Script/PathFinder/PathFinder.cs
+  artifactKey: Guid(bb5235e65ed1392449ad4e97dbab5378) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/PathFinder/PathFinder.cs using Guid(bb5235e65ed1392449ad4e97dbab5378) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6666e886ab23e6972c0ccb26694fcd3f') in 0.011896 seconds 
+  Import took 0.037650 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019347 seconds.
+  path: Assets/Script/PathFinder/PathFinder.cs
+  artifactKey: Guid(bb5235e65ed1392449ad4e97dbab5378) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/PathFinder/PathFinder.cs using Guid(bb5235e65ed1392449ad4e97dbab5378) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6666e886ab23e6972c0ccb26694fcd3f') in 0.002940 seconds 
+  Import took 0.026655 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.403625 seconds.
+  path: Assets/Script/Player/PlayerMovement.cs
+  artifactKey: Guid(ec09b163454603943bf08f7f0f3e8186) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/Player/PlayerMovement.cs using Guid(ec09b163454603943bf08f7f0f3e8186) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9a54d2e5c984b16962ffac08db165e7a') in 0.012414 seconds 
+  Import took 0.036860 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 640.502547 seconds.
+  path: Assets/Script/PathFinder/Node.cs
+  artifactKey: Guid(8758c4a7ff9cb2741a170a607df86f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/PathFinder/Node.cs using Guid(8758c4a7ff9cb2741a170a607df86f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '886d03d0b45db63d17d2370d92d0b026') in 0.015307 seconds 
+  Import took 0.039048 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005134 seconds.
+  path: Assets/Script/PathFinder/Node.cs
+  artifactKey: Guid(8758c4a7ff9cb2741a170a607df86f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Script/PathFinder/Node.cs using Guid(8758c4a7ff9cb2741a170a607df86f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '886d03d0b45db63d17d2370d92d0b026') in 0.002735 seconds 
+  Import took 0.008183 seconds .
+
