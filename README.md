@@ -7,16 +7,17 @@
 3. class Script>Pathfinder>Node is component of each cell object on the grid system.
 
 ## How to Use
-1. Add Pathfinder Script to your gameobject need pathfinding.
-2. Do Basic Setting on the unity editor's Inspector.
+1. Copy and Paste Asset>Scripts>Pathfinder folder to your project
+2. Add Pathfinder Script to your gameobject need pathfinding.
+3. Do Basic Setting on the unity editor's Inspector.
     * **Grid Start/End Point:** This is Grid base system. So, You have to limit domain of Grid.
     * **Cell Size:** This is size of cells of the grid system. As the size smaller, The path will be smoother and It will takes more time to process. (0.5 is preferred)
     * **Collision Check Sensor Size:** Actual collider size of gameobejct and collider size used on the pathfinding can be different. You can set collider size used on the pathfinding with this parameter.
     * **Priority Queue Max Size:** Maximum size of Priority Queue for A* algorithm's tasks.
     * **Layer To Check Collide:** You can set collider info to find path limited to a specific layer.
     * **Optimizing Path:** On the grid base path finding system, the ways object can move are straight and diagonal(=45 degrees). But sometime we have to move diagonal angles other than 45 degrees to get fastest path. If you check this, you can optimize the path.
-3. GetComponent<PathFinder>getShortestPath(Vector2 start, Vector2 goal) will return shortest path as LinkedList<Vector2>
-4. You can find out how to use Script>Player>PlayerMovement
+4. GetComponent<PathFinder>getShortestPath(Vector2 start, Vector2 goal) will return shortest path as LinkedList<Vector2>
+5. You can find out how to use Script>Player>PlayerMovement
 
 ## Improvement
 * Now, Gird Generator is on PathFinder class. However, It will be changed as seperated class(GridGenerator) as if you're using Nav Mesh on Unity 3D.
