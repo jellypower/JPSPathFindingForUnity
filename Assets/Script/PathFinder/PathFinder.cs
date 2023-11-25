@@ -35,7 +35,6 @@ public class PathFinder : MonoBehaviour
 
     void Start()
     {
-
         numCols = (int)((gridEndPoint.x - gridStartPoint.x) / cellSize + 0.5);
         numRows = (int)((gridEndPoint.y - gridStartPoint.y) / cellSize + 0.5);
 

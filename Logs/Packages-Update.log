@@ -48,3 +48,20 @@ The following packages were updated:
   com.unity.2d.animation from version 5.0.1 to 5.0.5
   com.unity.2d.psdimporter from version 4.0.1 to 4.0.2
   com.unity.2d.spriteshape from version 5.0.1 to 5.1.2
+
+=== Sat Nov 25 22:35:05 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.2d.animation from version 5.0.5 to 7.0.6
+  com.unity.2d.pixel-perfect from version 4.0.1 to 5.0.1
+  com.unity.2d.psdimporter from version 4.0.2 to 6.0.4
+  com.unity.2d.spriteshape from version 5.1.2 to 7.0.4
+  com.unity.collab-proxy from version 1.5.7 to 1.15.18
+  com.unity.ide.rider from version 2.0.7 to 3.0.15
+  com.unity.ide.visualstudio from version 2.0.9 to 2.0.16
+  com.unity.ide.vscode from version 1.2.3 to 1.2.5
+  com.unity.test-framework from version 1.1.26 to 1.1.31
+  com.unity.timeline from version 1.4.8 to 1.6.4

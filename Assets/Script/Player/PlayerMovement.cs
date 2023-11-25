@@ -3,38 +3,38 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
+
     Vector2 targetPos;
     PathFinder pathFinder;
 
     LinkedList<Vector2> path = null;
 
+    private void Awake()
+    {
+        instance = this;
+        targetPos = transform.position;
+    }
+
     void Start()
     {
-        targetPos = transform.position;
         pathFinder = GetComponent<PathFinder>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         }
-
         move();
     }
 
 
     void move()
     {
-        
-        
-
-
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 start = transform.position;
@@ -63,13 +63,5 @@ public class PlayerMovement : MonoBehaviour
         
         
 
-    }
-
-    void animate()
-    {
-
-        
-
-        
     }
 }
