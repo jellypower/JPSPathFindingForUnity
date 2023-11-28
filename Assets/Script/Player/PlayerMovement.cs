@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using DSNavigation;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 targetPos;
     PathFinder pathFinder;
+    JPSGridInfoFaster jpsGridInfo;
 
     LinkedList<Vector2> path = null;
 
@@ -19,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         pathFinder = GetComponent<PathFinder>();
+        jpsGridInfo = GetComponent<JPSGridInfoFaster>();
+        jpsGridInfo.BakeGridInfo();
     }
 
     // Update is called once per frame

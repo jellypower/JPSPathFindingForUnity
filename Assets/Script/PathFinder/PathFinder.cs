@@ -484,19 +484,21 @@ public class PathFinder : MonoBehaviour
     //===================================DEBUG===================================
 
 #if DEBUG
-
+    [SerializeField] bool DrawGizmo;
     Color goalGizmoColor = new Color(1, 1, 0, 0.5f);
     void OnDrawGizmos()
     {
-        drawPlayerPositionNode();
-        drawNodeOnGizmo(goalNode, goalGizmoColor);
-        drawGridLine();
-        drawObstacles();
-        drawShortestPath();
-        //drawFinalWaypoints();
-        //drawFinalNodes();
-        //drawClosedNodes();
-
+        if (DrawGizmo)
+        {
+            drawPlayerPositionNode();
+            drawNodeOnGizmo(goalNode, goalGizmoColor);
+            drawGridLine();
+            drawObstacles();
+            drawShortestPath();
+            //drawFinalWaypoints();
+            //drawFinalNodes();
+            //drawClosedNodes();
+        }
 
 
     }
