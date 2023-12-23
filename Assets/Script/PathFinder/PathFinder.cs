@@ -37,24 +37,16 @@ public class PathFinder : MonoBehaviour
     {
         numCols = (int)((gridEndPoint.x - gridStartPoint.x) / cellSize + 0.5);
         numRows = (int)((gridEndPoint.y - gridStartPoint.y) / cellSize + 0.5);
-
         nodes = generateNodes();
-
         collider = GetComponent<BoxCollider2D>();
         
-
         openList = new FastPriorityQueue<Node>(priorityQueueMaxSize);
         closeList = new LinkedList<Node>();
-
 
         nodeOnPathList = new LinkedList<Node>();
         finalPath = new LinkedList<Vector2>();
 
-
         goalNode = findNodeOnPosition(transform.position);
-
-        
-
     }
 
     Node[,] generateNodes()
@@ -80,31 +72,10 @@ public class PathFinder : MonoBehaviour
         return nodes;
     }
 
-    public LinkedList<Vector2> getShortestPath(Vector2 start, Vector2 goal, out long elapsedMiliSeconds)
-    {
-        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
-
-
-
-        getShortestPath(start, goal);
-
-
-
-        watch.Stop();
-        elapsedMiliSeconds = watch.ElapsedMilliseconds;
-
-
-        return finalPath;
-
-
-    }
-
     public LinkedList<Vector2> getShortestPath(Vector2 start, Vector2 goal)
     {
         isPathFound = false;
         finalPath.Clear();
-
 
         startNode = findNodeOnPosition(start);
         goalNode = findNodeOnPosition(goal);
@@ -140,10 +111,6 @@ public class PathFinder : MonoBehaviour
         }
 
         return finalPath;
-
-
-
-
     }
 
     void initOpenList()
@@ -166,15 +133,13 @@ public class PathFinder : MonoBehaviour
             n.Value.onCloseList = false;
 
             closeList.RemoveFirst();
-        }
-        
+        }   
     }
 
 
     
     void findPath(Node start, Node goal) // find path with a* algorithm
     {
-
 
         initCloseList();
         initOpenList();
@@ -201,10 +166,7 @@ public class PathFinder : MonoBehaviour
             }
 
             jump(nodeToFind);
-
-
         }
-
 
         makeWaypoints();
     }
@@ -310,8 +272,6 @@ public class PathFinder : MonoBehaviour
 
         if (parent.XIndex <= node.XIndex || parent.YIndex >= node.YIndex)
             updateJumpPoints(jumpDiagonal(node, 1, -1), node);
-
-
     }
 
     void updateJumpPoints(Node jumpEnd, Node jumpStart)
@@ -319,7 +279,9 @@ public class PathFinder : MonoBehaviour
 
         if (jumpEnd == null) return;
 
-        if (jumpEnd.onOpenList || jumpEnd.onCloseList)
+        if (jumpEnd.onCloseList) return;
+
+        if (jumpEnd.onOpenList)
         {
             if (jumpEnd.gCost > jumpStart.gCost + Vector2.Distance(jumpStart.nodeCenter, jumpEnd.nodeCenter))
             {
@@ -354,7 +316,6 @@ public class PathFinder : MonoBehaviour
             if (!isWalkalbeAt(currentXDir, currentYDir)) return null;
             currentNode = nodes[currentXDir, currentYDir];
 
-
             if (currentNode == goalNode)
             {
 
@@ -368,7 +329,6 @@ public class PathFinder : MonoBehaviour
                 return currentNode;
                 
             }
-
         }
     }
 
@@ -385,19 +345,16 @@ public class PathFinder : MonoBehaviour
             currentYDir += yDir;
             
             if (!isWalkalbeAt(currentXDir, currentYDir)) return null;
-            
             currentNode = nodes[currentXDir, currentYDir];
 
             if (currentNode == goalNode)
             {
-
                 return goalNode;
             }
 
             if (isWalkalbeAt(currentXDir + 1, currentYDir + yDir) && !isWalkalbeAt(currentXDir + 1, currentYDir)
                 || isWalkalbeAt(currentXDir - 1, currentYDir + yDir) && !isWalkalbeAt(currentXDir - 1, currentYDir))
             {
-
                 return currentNode;
             }
         }
@@ -412,13 +369,11 @@ public class PathFinder : MonoBehaviour
 
         while (true)
         {
-
             currentXDir += xDir;
             currentYDir += yDir;
             
 
             if (!isWalkalbeAt(currentXDir, currentYDir)) return null;
-
             currentNode = nodes[currentXDir, currentYDir];
 
             if (currentNode == goalNode)
@@ -426,7 +381,6 @@ public class PathFinder : MonoBehaviour
 
                 return goalNode;
             }
-
             if (isWalkalbeAt(currentXDir - xDir, currentYDir + yDir) && !isWalkalbeAt(currentXDir - xDir, currentYDir)
             || isWalkalbeAt(currentXDir + xDir, currentYDir - yDir) && !isWalkalbeAt(currentXDir, currentYDir - yDir)
                 )
@@ -472,16 +426,14 @@ public class PathFinder : MonoBehaviour
         if (position.x < gridStartPoint.x || position.y < gridStartPoint.y
             || position.x > gridEndPoint.x || position.y > gridEndPoint.y) return null;
 
-
         Vector2 relativePosition = position - gridStartPoint;
-
         int x = (int)(relativePosition.x / cellSize);
         int y = (int)(relativePosition.y / cellSize);
 
         return nodes[x, y];
     }
 
-    //===================================DEBUG===================================
+
 
 #if DEBUG
     [SerializeField] bool DrawGizmo;
@@ -622,8 +574,6 @@ public class PathFinder : MonoBehaviour
         Gizmos.color = gizmoColor;
         Gizmos.DrawCube(node.nodeCenter, new Vector2(cellSize, cellSize));
     }
-
-
 
 }
 #endif

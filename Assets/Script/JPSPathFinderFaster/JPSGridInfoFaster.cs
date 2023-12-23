@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
@@ -16,12 +17,8 @@ namespace DSNavigation
     public struct PathFinderNode
     {
         public float m_gCost;
-        public float m_hCost;
-        public Vector2Int m_paretnNode;
         public bool m_onCloseList;
-        public bool m_onOpenList;
-
-        public float getFCost() { return m_gCost + m_hCost; }
+        public Vector2Int m_paretnNode;
     }
 
     public struct JPSGridInfoToFindPath
@@ -40,7 +37,7 @@ namespace DSNavigation
     public class JPSGridInfoFaster : MonoBehaviour
     {
         public JPSGridInfoToFindPath m_gridMapPathfinderInfo;
-
+         
         [Header("Grid Info")]
         [SerializeField] Vector2 m_InGridStartPoint;
         [SerializeField] Vector2 m_InGridEndPoint;
@@ -52,9 +49,12 @@ namespace DSNavigation
         [SerializeField] Vector2 m_collisionCheckSensorSize = new Vector2(1, 1);
         [SerializeField] LayerMask m_InLayerToCheckCollide;
 
-        private Vector2 m_gridStartCalculated; // TODO: 계산해서 넣어놓기
+        private Vector2 m_gridStartCalculated;
         private Vector2 m_gridEndCalculated; 
         private Vector2 m_eachNodesize;
+
+        public Vector2 CollisionCheckSensorSize { get { return m_collisionCheckSensorSize; } }
+        public LayerMask LayerToCheckCollide { get { return m_InLayerToCheckCollide; } }
         
         void Awake()
         {
@@ -68,12 +68,12 @@ namespace DSNavigation
             m_gridMapPathfinderInfo = new JPSGridInfoToFindPath();
 
             m_gridMapPathfinderInfo.m_gridMapHorizontalSize
-                = ((m_InGridHorizontalSize + 2) / 64 +
-                ((m_InGridHorizontalSize + 2) % 64 == 0 ? 0u : 1u)) * 64;
+                = (m_InGridHorizontalSize / 64 +
+                (m_InGridHorizontalSize % 64 == 0 ? 0u : 1u)) * 64;
 
             m_gridMapPathfinderInfo.m_gridMapVerticalSize
-                = ((m_InGridVerticalSize + 2) / 64 +
-                ((m_InGridVerticalSize + 2) % 64 == 0 ? 0u : 1u)) * 64;
+                = (m_InGridVerticalSize / 64 +
+                (m_InGridVerticalSize % 64 == 0 ? 0u : 1u)) * 64;
             // "+ 2" is for avoiding check edge during grid scanning
 
             m_gridMapPathfinderInfo.m_horizontalBitmapSize =
@@ -93,15 +93,41 @@ namespace DSNavigation
                  = new PathFinderNode[m_gridMapPathfinderInfo.m_gridMapHorizontalSize
                                      * m_gridMapPathfinderInfo.m_gridMapVerticalSize];
 
+            for(uint y = 0; y < m_gridMapPathfinderInfo.m_gridMapVerticalSize; y++)
+            {
+                for(uint x=0; x<m_gridMapPathfinderInfo.m_gridMapHorizontalSize; x++)
+                {
+                    m_gridMapPathfinderInfo.m_pathFinderGridmap
+                        [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_paretnNode = new Vector2Int(-1, -1);
+
+                    m_gridMapPathfinderInfo.m_pathFinderGridmap
+                        [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_onCloseList = false;
+
+                    m_gridMapPathfinderInfo.m_pathFinderGridmap
+                        [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_gCost = float.MaxValue;
+                }
+            }
+
 
             Vector2 girdMapWidthHeight = m_InGridEndPoint - m_InGridStartPoint;
             m_eachNodesize =
                 new Vector2(girdMapWidthHeight.x / m_InGridHorizontalSize, girdMapWidthHeight.y / m_InGridVerticalSize);
 
-            m_gridStartCalculated = m_InGridStartPoint - m_eachNodesize;
-            m_gridEndCalculated =
-                new Vector2(m_gridStartCalculated.x + m_gridMapPathfinderInfo.m_gridMapHorizontalSize * m_eachNodesize.x,
-                            m_gridStartCalculated.y + m_gridMapPathfinderInfo.m_gridMapVerticalSize * m_eachNodesize.y);
+            m_gridStartCalculated = m_InGridStartPoint;
+            m_gridEndCalculated = m_InGridEndPoint;
+
+
+            for (uint x = 0; x < m_gridMapPathfinderInfo.m_gridMapHorizontalSize; x++)
+            {
+                SetBlockAt(x, 0);
+                SetBlockAt(x, m_gridMapPathfinderInfo.m_gridMapVerticalSize - 1);
+            }
+
+            for (uint y = 1; y < m_gridMapPathfinderInfo.m_gridMapVerticalSize - 1; y++)
+            {
+                SetBlockAt(0, y);
+                SetBlockAt(m_gridMapPathfinderInfo.m_gridMapHorizontalSize - 1, y);
+            }
         }
     
 
@@ -165,29 +191,56 @@ namespace DSNavigation
             ulong horizontalBitFlag = BIT_BASE >> bitmapXIdx;
 
             return 
-            (m_gridMapPathfinderInfo.m_horizontalBitmap
-               [m_gridMapPathfinderInfo.m_gridMapHorizontalSize / 64 * y + arrayXIdx]
-               & horizontalBitFlag) != 0;
+            (
+            m_gridMapPathfinderInfo.m_horizontalBitmap[m_gridMapPathfinderInfo.m_gridMapHorizontalSize / 64 * y + arrayXIdx]
+               & horizontalBitFlag
+               ) != 0;
 #elif GET_VERTICAL_BLOCK_INFO
             uint arrayYIdx = y / 64u;
             byte bitmapYIdx = (byte)(y % 64u);
             ulong verticalBitFlag = BIT_BASE >> bitmapYIdx;
 
             return
-            (m_gridMapPathfinderInfo.m_verticalBitmap
-                [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * arrayYIdx + x]
-                & verticalBitFlag) != 0;
+            (
+                m_gridMapPathfinderInfo.m_verticalBitmap[m_gridMapPathfinderInfo.m_gridMapHorizontalSize * arrayYIdx + x]
+                & verticalBitFlag
+                ) != 0;
 #endif
         }
 
+        /// <returns> Vector2.negativeInfinity if invalid location input is passed </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2 GetNodeCenter(uint x, uint y)
         {
+            if (x<0 || x>=m_gridMapPathfinderInfo.m_gridMapHorizontalSize ||
+                y<0 || y>=m_gridMapPathfinderInfo.m_gridMapVerticalSize)
+            {
+                Debug.LogError($"In location is Invalid. Location: (x: {x}, y: {y})");
+                return Vector2.negativeInfinity;
+            }
             Assert.IsTrue(0<=x && x<m_gridMapPathfinderInfo.m_gridMapHorizontalSize);
             Assert.IsTrue(0<=y && y<m_gridMapPathfinderInfo.m_gridMapVerticalSize);
 
             return new Vector2(m_gridStartCalculated.x + m_eachNodesize.x / 2 + x * m_eachNodesize.x,
                                 m_gridStartCalculated.y + m_eachNodesize.y / 2 + y * m_eachNodesize.y);
+        }
+
+        /// <returns> (-1, -1) if invalid location input is passed </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int GetNodeIdx(in Vector2 location)
+        {
+            if( location.x < m_gridStartCalculated.x || location.x >= m_gridEndCalculated.x ||
+                location.y < m_gridStartCalculated.y || location.y >= m_gridEndCalculated.y)
+            {
+                Debug.LogError($"In location is Invalid. (vector: {location})");
+                return new Vector2Int(-1, -1);
+            }
+
+            Vector2 relativeLocation = location - m_gridStartCalculated;
+
+            return new Vector2Int(
+                (int)(relativeLocation.x / m_eachNodesize.x),
+                (int)(relativeLocation.y / m_eachNodesize.y));
         }
 
         public void BakeGridInfo()
@@ -202,22 +255,8 @@ namespace DSNavigation
 
                     if (bBlock)
                         SetBlockAt(x,y);
-                    
                 }
             }
-
-            for(uint x=0;x<m_gridMapPathfinderInfo.m_gridMapHorizontalSize;x++)
-            {
-                SetBlockAt(x, 0);
-                SetBlockAt(x, m_gridMapPathfinderInfo.m_gridMapVerticalSize - 1);
-            }
-
-            for(uint y = 1; y < m_gridMapPathfinderInfo.m_gridMapVerticalSize - 1; y++)
-            {
-                SetBlockAt(0, y);
-                SetBlockAt(m_gridMapPathfinderInfo.m_gridMapHorizontalSize - 1, y);
-            }
-
         }
 
 #if DEBUG
@@ -225,12 +264,11 @@ namespace DSNavigation
         [SerializeField]bool DrawGizmo = false;
         private void OnDrawGizmos()
         {
-            if (DrawGizmo)
+            if (EditorApplication.isPlaying && DrawGizmo)
             {
                 DrawGrid();
                 DrawBlockNodes(new Color(1, 0, 0, 0.5f));
-            }
-            
+            }   
         }
 
         void DrawGrid()
