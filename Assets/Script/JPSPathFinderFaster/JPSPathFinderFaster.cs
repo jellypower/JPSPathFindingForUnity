@@ -124,8 +124,7 @@ namespace DSNavigation
                 if (m_optimizePath)
                 {
                     uint sensingStartIdx = 0;
-                    uint sensingEndIdx = sensingStartIdx + 1;
-
+                    uint sensingEndIdx = 1;
 
                     Vector2 sensingStartPos = jpsGrid.GetNodeCenter(
                             (uint)m_pathResultPool[sensingStartIdx].x, (uint)m_pathResultPool[sensingStartIdx].y);
@@ -137,25 +136,23 @@ namespace DSNavigation
 
                     while(sensingEndIdx < tempOutPathSize)
                     {
-
                         sensingStartPos = jpsGrid.GetNodeCenter(
                             (uint)m_pathResultPool[sensingStartIdx].x, (uint)m_pathResultPool[sensingStartIdx].y);
 
                         sensingEndPos = jpsGrid.GetNodeCenter(
                             (uint)m_pathResultPool[sensingEndIdx].x, (uint)m_pathResultPool[sensingEndIdx].y);
 
-                        if (Physics2D.BoxCast(sensingStartPos, jpsGrid.CollisionCheckSensorSize / 2, 0,
+                        if (Physics2D.BoxCast(sensingStartPos, jpsGrid.CollisionCheckSensorSize, 0,
                         sensingEndPos - sensingStartPos, Vector2.Distance(sensingEndPos, sensingStartPos),
                         jpsGrid.LayerToCheckCollide))
                         {
-                            sensingStartIdx = sensingEndIdx;
+                            sensingStartIdx = sensingEndIdx - 1;
                             ++sensingEndIdx;
 
                             Vector2 posToAdd = jpsGrid.GetNodeCenter(
-                            (uint)m_pathResultPool[sensingStartIdx - 1].x, (uint)m_pathResultPool[sensingStartIdx - 1].y);
+                            (uint)m_pathResultPool[sensingStartIdx].x, (uint)m_pathResultPool[sensingStartIdx].y);
 
                             outShortestPath.AddFirst(posToAdd);
-                            outShortestPath.AddFirst(sensingEndPos);
                         }
                         else
                         {
@@ -170,10 +167,7 @@ namespace DSNavigation
                     for (int i = 0; i < tempOutPathSize; ++i)
                         outShortestPath.AddFirst(jpsGrid.GetNodeCenter((uint)m_pathResultPool[i].x, (uint)m_pathResultPool[i].y));
                 }
-
-                
             }
-
             return isPathFound;
         }
 

@@ -6,9 +6,9 @@ using UnityEditor;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public static PlayerMovement instance;
-
     [SerializeField] float m_movementSpeed = 10;
+    
+    public static PlayerMovement instance;
 
     PathFinder pathFinder;
     JPSGridInfoFaster m_jpsGridInfoFaster;
