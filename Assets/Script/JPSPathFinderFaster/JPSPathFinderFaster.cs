@@ -259,7 +259,7 @@ namespace DSNavigation
         }
 
 
-        [DllImport("D:\\PrivateLibrary\\JPSPathfinderFaster\\x64\\Release\\JPSPathfinderFaster")]
+        [DllImport("JPSPathfinderFaster")]
         unsafe extern static private PathfindResult FindPathJPSFaster
             (ref JPSGridInfoToFindPathUnsafe InGridInfo,
             ref PathfinderPriorityQueuePoolUnsafe InPathFinderPriorityQueuePool,

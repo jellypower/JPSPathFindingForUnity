@@ -7,10 +7,10 @@ using UnityEditor;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float m_movementSpeed = 10;
-    
+
     public static PlayerMovement instance;
 
-    PathFinder pathFinder;
+    PathFinder m_pathFinder;
     JPSGridInfoFaster m_jpsGridInfoFaster;
     JPSPathFinderFaster m_jpsPathFinderFaster;
 
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        pathFinder = GetComponent<PathFinder>();
+        m_pathFinder = GetComponent<PathFinder>();
         m_jpsGridInfoFaster = GetComponent<JPSGridInfoFaster>();
         m_jpsPathFinderFaster = GetComponent<JPSPathFinderFaster>();
         m_jpsGridInfoFaster.BakeGridInfo();
@@ -48,7 +48,10 @@ public class PlayerMovement : MonoBehaviour
             m_start = transform.position;
             m_goal = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            long time;
+            long jpsBElapsedMS;
+            long jpsElapsedMS;
+            long jpsBElapsedTick;
+            long jpsElapsedTick;
             m_fasterPath.Clear();
             {
                 System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
@@ -61,12 +64,26 @@ public class PlayerMovement : MonoBehaviour
                         ref m_fasterPath);
                 }
                 watch.Stop();
-                time = watch.ElapsedMilliseconds;
-                Debug.Log("JPS(B): "+ time);
+                jpsBElapsedMS = watch.ElapsedMilliseconds;
+                jpsBElapsedTick = watch.ElapsedTicks;
+
+                watch.Start();
+                {
+                    m_pathFinder.getShortestPath(m_start, m_goal);
+                }
+                watch.Stop();
+                jpsElapsedMS = watch.ElapsedMilliseconds;
+                jpsElapsedTick = watch.ElapsedTicks;
+
+                Debug.Log(
+                    "JPS(B): " + jpsBElapsedMS + "ms" + "(" + jpsBElapsedTick + "ticks)\t\t" +
+                    "JPS: " + jpsElapsedMS + "ms" + "(" + jpsElapsedTick + "ticks)\t\t" +
+                    "Performance improvement: " + ((float)jpsElapsedTick/jpsBElapsedTick)
+                    );
             }
         }
 
-        if (m_fasterPath!= null && m_fasterPath.Count > 0)
+        if (m_fasterPath != null && m_fasterPath.Count > 0)
         {
             transform.position = Vector2.MoveTowards(transform.position, m_fasterPath.First.Value, m_movementSpeed * Time.deltaTime);
             if ((Vector2)transform.position == m_fasterPath.First.Value)

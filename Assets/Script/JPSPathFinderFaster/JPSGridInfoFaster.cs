@@ -18,6 +18,7 @@ namespace DSNavigation
     {
         public float m_gCost;
         public bool m_onCloseList;
+        public bool m_isBlock;
         public Vector2Int m_paretnNode;
     }
 
@@ -104,6 +105,9 @@ namespace DSNavigation
                         [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_onCloseList = false;
 
                     m_gridMapPathfinderInfo.m_pathFinderGridmap
+                        [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_isBlock = false;
+
+                    m_gridMapPathfinderInfo.m_pathFinderGridmap
                         [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_gCost = float.MaxValue;
                 }
             }
@@ -139,6 +143,9 @@ namespace DSNavigation
 
             const ulong BIT_BASE = 1ul << 63;
 
+            m_gridMapPathfinderInfo.m_pathFinderGridmap
+                [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_isBlock = true;
+
             uint arrayXIdx = x / 64u;
             byte bitmapXIdx = (byte)(x % 64u);
             ulong horizontalBitFlag = BIT_BASE >> bitmapXIdx;
@@ -161,6 +168,9 @@ namespace DSNavigation
             Assert.IsTrue(y < m_gridMapPathfinderInfo.m_gridMapVerticalSize);
 
             const ulong BIT_BASE = 1ul << 63;
+
+            m_gridMapPathfinderInfo.m_pathFinderGridmap
+                [m_gridMapPathfinderInfo.m_gridMapHorizontalSize * y + x].m_isBlock = false;
 
             uint arrayXIdx = x / 64u;
             byte bitmapXIdx = (byte)(x % 64u);
