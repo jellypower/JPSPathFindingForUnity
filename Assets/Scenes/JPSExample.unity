@@ -396,7 +396,7 @@ MonoBehaviour:
   m_priorityQueueMaxCapacity: 4096
   m_pathResultPoolMaxCapacity: 128
   m_closeListCapacity: 16384
-  m_optimizePath: 1
+  m_optimizePath: 0
 --- !u!1 &410194461
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,9 @@
 # PathFindingForUnity
-**JPS + A* algorithm for Unity**
+**JPS(B) + A* algorithm for Unity**
 
-## Info
-1. This is Grid base Pathfinding System.
-2. The main source code of this system is located in "Script>Pathfinder"
-3. class Script>Pathfinder>Node is component of each cell object on the grid system.
+## Update
+* This is highly optimized Grid base Pathfinding System.
+* In 256x256 gridmap, this algorithm run 15 times faster than previous version of JPS algorithm.
 
 ## How to Use
 1. Copy and Paste Asset>Scripts>Pathfinder folder to your project
@@ -19,10 +18,8 @@
 4. GetComponent<PathFinder>getShortestPath(Vector2 start, Vector2 goal) will return shortest path as LinkedList<Vector2>
 5. You can find out how to use Script>Player>PlayerMovement
 
-## Improvement
-* Now, Gird Generator is on PathFinder class. However, It will be changed as seperated class(GridGenerator) as if you're using Nav Mesh on Unity 3D.
-* The Grid's collision info is not updated on the realtime yet.(Grid is updated only on the Start but Update) If GridGenerator class is made, that function also will be updated soon.
-* If you want to use Debug Tools, You can use some functions under the OnDrawGizmos() function. (Showing closed and open nodes, drawing lines between nodes etc.)
+## Performance
+// 이미지 넣어주기
 
 ## caution
 * If you have any question or feedback for this code. Contact to **Email: dongcheold147@gmail.com**

@@ -8,40 +8,36 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float m_movementSpeed = 10;
 
-    public static PlayerMovement instance;
-
     PathFinder m_pathFinder;
     JPSGridInfoFaster m_jpsGridInfoFaster;
     JPSPathFinderFaster m_jpsPathFinderFaster;
 
-    LinkedList<Vector2> path = null;
-
     Vector2 m_start;
     Vector2 m_goal;
 
+    LinkedList<Vector2> path = null;
     LinkedList<Vector2> m_fasterPath = new();
+
+    
+
+    public static PlayerMovement Instance { private set; get; }
+
+
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
+        m_pathFinder = GetComponent<PathFinder>();
+        m_jpsGridInfoFaster = GetComponent<JPSGridInfoFaster>();
+        m_jpsPathFinderFaster = GetComponent<JPSPathFinderFaster>();
     }
 
     void Start()
     {
-        m_pathFinder = GetComponent<PathFinder>();
-        m_jpsGridInfoFaster = GetComponent<JPSGridInfoFaster>();
-        m_jpsPathFinderFaster = GetComponent<JPSPathFinderFaster>();
         m_jpsGridInfoFaster.BakeGridInfo();
     }
 
-    // Update is called once per frame
     void Update()
-    {
-        move();
-    }
-
-
-    void move()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -78,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log(
                     "JPS(B): " + jpsBElapsedMS + "ms" + "(" + jpsBElapsedTick + "ticks)\t\t" +
                     "JPS: " + jpsElapsedMS + "ms" + "(" + jpsElapsedTick + "ticks)\t\t" +
-                    "Performance improvement: " + ((float)jpsElapsedTick/jpsBElapsedTick)
+                    "Performance improvement: " + ((float)jpsElapsedTick / jpsBElapsedTick)
                     );
             }
         }
@@ -93,24 +89,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void OnDrawGizmos()
     {
         if (EditorApplication.isPlaying)
         {
             Color originalColor = Gizmos.color;
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(new Vector3(m_start.x, m_start.y, 0), new Vector3(0.5f, 0.5f, 0.5f));
-
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(new Vector3(m_goal.x, m_goal.y, 0), new Vector3(0.5f, 0.5f, 0.5f));
-
-
             if (m_fasterPath.Count > 0)
             {
                 Gizmos.color = Color.green;
+
                 foreach (var loc in m_fasterPath)
                     Gizmos.DrawCube(new Vector3(loc.x, loc.y, 0), new Vector3(0.5f, 0.5f, 0.5f));
 

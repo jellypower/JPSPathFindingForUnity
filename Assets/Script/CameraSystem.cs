@@ -11,7 +11,7 @@ public class CameraSystem : MonoBehaviour
 
     private void Start()
     {
-        Vector3 playerPos = PlayerMovement.instance.transform.position;
+        Vector3 playerPos = PlayerMovement.Instance.transform.position;
         playerPos.z = -10.0f;
         transform.position = playerPos;
     }
@@ -34,9 +34,9 @@ public class CameraSystem : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y - Time.deltaTime * m_camSpeed, transform.position.z);
          
 
-        if (Input.GetKey(KeyCode.Space) && PlayerMovement.instance != null)
+        if (Input.GetKey(KeyCode.Space) && PlayerMovement.Instance != null)
         {
-            Vector3 playerPos = PlayerMovement.instance.transform.position;
+            Vector3 playerPos = PlayerMovement.Instance.transform.position;
             playerPos.z = -10.0f;
             transform.position = playerPos;
         }
