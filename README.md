@@ -9,6 +9,9 @@
 
 ## How to Use
 
+### UnityPackage
+https://github.com/jellypower/JPSPathFindingForUnity/releases/tag/1.0.0
+
 ### class JPSGridInfoFaster
 * **InGridStartPoint/InGridEndPoint:** Grid start and end point.
    * this system atuomatically recalculate start/end point of grid for faster boundary check.
