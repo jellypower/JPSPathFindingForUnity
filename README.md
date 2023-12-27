@@ -10,18 +10,18 @@
 ## How to Use
 
 ### class JPSGridInfoFaster
-    * **InGridStartPoint/InGridEndPoint:** Grid start and end point.
-        * this system atuomatically recalculate start/end point of grid for faster boundary check.
-    * **InGridHorizontalSize/InGridVerticalSize:** grid horizontal/vertical devide size.
-    * **Collision Check Sensor Size:** Each cell of grid check whether itself blocked with this sensor size from center.
-    * **Layer To Check Collide:** On Baking the gridmap, which layers used.
+* **InGridStartPoint/InGridEndPoint:** Grid start and end point.
+   * this system atuomatically recalculate start/end point of grid for faster boundary check.
+* **InGridHorizontalSize/InGridVerticalSize:** grid horizontal/vertical devide size.
+* **Collision Check Sensor Size:** Each cell of grid check whether itself blocked with this sensor size from center.
+* **Layer To Check Collide:** On Baking the gridmap, which layers used.
 
 ### class JPSPathFinderFaster
-    * **priorityQueueMaxCapacity:** priority queue size for A* algorithm.
-    * **pathResultPoolMaxCapacity:** size of memory pool to store path finding results.
-    * **closeListCapacity:** close list size for A* algorithm.
-    * **optimizePath:** whether optimize the path for smooth and faster path.
-    * **findWalkableOnBlockedGoal:** whether automatically find closest non-blocked point when destination node is blocked. 
+* **priorityQueueMaxCapacity:** priority queue size for A* algorithm.
+* **pathResultPoolMaxCapacity:** size of memory pool to store path finding results.
+* **closeListCapacity:** close list size for A* algorithm.
+* **optimizePath:** whether optimize the path for smooth and faster path.
+* **findWalkableOnBlockedGoal:** whether automatically find closest non-blocked point when destination node is blocked. 
 
 ## Performance
 <img src="https://github.com/jellypower/PublicImageDataBase/blob/main/Portfolio/JPSPathfinder/performance.png" alt="drawing" width="400"/>
