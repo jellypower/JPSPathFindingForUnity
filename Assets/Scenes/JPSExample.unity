@@ -352,7 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridStartPoint: {x: -20, y: -11}
   gridEndPoint: {x: 43.5, y: 52.5}
-  cellSize: 0.25
+  cellSize: 0.5
   collisionCheckSensorSize: {x: 0.5, y: 0.5}
   priorityQueueMaxSize: 200
   layerTocheckCollide:
@@ -374,13 +374,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InGridStartPoint: {x: -20, y: -11}
   m_InGridEndPoint: {x: 44, y: 53}
-  m_InGridHorizontalSize: 256
-  m_InGridVerticalSize: 256
+  m_InGridHorizontalSize: 128
+  m_InGridVerticalSize: 128
   m_collisionCheckSensorSize: {x: 0.5, y: 0.5}
   m_InLayerToCheckCollide:
     serializedVersion: 2
     m_Bits: 64
-  DrawGizmo: 0
+  DrawGizmo: 1
 --- !u!114 &372311803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +396,8 @@ MonoBehaviour:
   m_priorityQueueMaxCapacity: 4096
   m_pathResultPoolMaxCapacity: 128
   m_closeListCapacity: 16384
-  m_optimizePath: 0
+  m_optimizePath: 1
+  m_findWalkableOnBlockedGoal: 1
 --- !u!1 &410194461
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,30 +1,34 @@
 # PathFindingForUnity
-**JPS(B) + A* algorithm for Unity**
 
-## Update
-* This is highly optimized Grid base Pathfinding System.
-* In 256x256 gridmap, this algorithm run 15 times faster than previous version of JPS algorithm.
+## Intro
+* Highly optimized JPS(B) + A* base pathfinding systme for Unity.
+* In 256x256 gridmap, this algorithm run 15 times faster than just JPS algorithm.
+* This system is memory pool base. So it is fast because there is no realtime allocation during processing.
+* Main algorithm to find path is C++ dll base. So the algorithm is optimized on the native level.
+    * **To use C++ dll. Allow unsafe code for project.**
 
 ## How to Use
-1. Copy and Paste Asset>Scripts>Pathfinder folder to your project
-2. Add Pathfinder Script to your gameobject need pathfinding.
-3. Do Basic Setting on the unity editor's Inspector.
-    * **Grid Start/End Point:** This is Grid base system. So, You have to limit domain of Grid.
-    * **Cell Size:** This is size of cells of the grid system. As the size smaller, The path will be smoother and It will takes more time to process. (0.5 is preferred)
-    * **Collision Check Sensor Size:** Actual collider size of gameobejct and collider size used on the pathfinding can be different. You can set collider size used on the pathfinding with this parameter.
-    * **Priority Queue Max Size:** Maximum size of Priority Queue for A* algorithm's tasks.
-    * **Layer To Check Collide:** You can set collider info to find path limited to a specific layer.
-    * **Optimizing Path:** On the grid base path finding system, the ways object can move are straight and diagonal(=45 degrees). But sometime we have to move diagonal angles other than 45 degrees to get fastest path. If you check this, you can optimize the path.
-4. GetComponent<PathFinder>getShortestPath(Vector2 start, Vector2 goal) will return shortest path as LinkedList<Vector2>
-5. You can find out how to use Script>Player>PlayerMovement
+
+### class JPSGridInfoFaster
+    * **InGridStartPoint/InGridEndPoint:** Grid start and end point.
+        * this system atuomatically recalculate start/end point of grid for faster boundary check.
+    * **InGridHorizontalSize/InGridVerticalSize:** grid horizontal/vertical devide size.
+    * **Collision Check Sensor Size:** Each cell of grid check whether itself blocked with this sensor size from center.
+    * **Layer To Check Collide:** On Baking the gridmap, which layers used.
+
+### class JPSPathFinderFaster
+    * **priorityQueueMaxCapacity:** priority queue size for A* algorithm.
+    * **pathResultPoolMaxCapacity:** size of memory pool to store path finding results.
+    * **closeListCapacity:** close list size for A* algorithm.
+    * **optimizePath:** whether optimize the path for smooth and faster path.
+    * **findWalkableOnBlockedGoal:** whether automatically find closest non-blocked point when destination node is blocked. 
 
 ## Performance
-// 이미지 넣어주기
-
-## caution
-* If you have any question or feedback for this code. Contact to **Email: dongcheold147@gmail.com**
-* I'm still student. So, The code is a bit messy. That's why feedback is welcome.
+<img src="https://github.com/jellypower/PublicImageDataBase/blob/main/Portfolio/JPSPathfinder/performance.png" alt="drawing" width="400"/>
+* 2D project available
+* Runtime block/non-blocking is possible
 
 ## Rreference
-https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp - PriorityQueue.dll's source
+https://github.com/jellypower/JPSPathFinderFaster.git - C++/dll base pathfinder algorithm.
+https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp - For previous version of JPS pathfinder
 

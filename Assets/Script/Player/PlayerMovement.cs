@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
                         (m_jpsGridInfoFaster,
                         m_start,
                         m_goal,
-                        ref m_fasterPath);
+                        ref m_fasterPath); // ** find path from start to goal **
                 }
                 watch.Stop();
                 jpsBElapsedMS = watch.ElapsedMilliseconds;
