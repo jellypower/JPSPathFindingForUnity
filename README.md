@@ -24,7 +24,7 @@
 * **findWalkableOnBlockedGoal:** whether automatically find closest non-blocked point when destination node is blocked. 
 
 ## Performance
-<img src="https://github.com/jellypower/PublicImageDataBase/blob/main/Portfolio/JPSPathfinder/performance.png" alt="drawing" width="400"/>
+<img src="https://github.com/jellypower/PublicImageDataBase/blob/main/Portfolio/JPSPathfinder/performance.png" alt="drawing" width="600"/>
 * 2D project available
 * Runtime block/non-blocking is possible
 
