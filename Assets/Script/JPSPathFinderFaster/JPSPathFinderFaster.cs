@@ -93,6 +93,7 @@ namespace DSNavigation
         [SerializeField] uint m_pathResultPoolMaxCapacity = 100;
         [SerializeField] uint m_closeListCapacity = 100;
         [SerializeField] bool m_optimizePath = true;
+        [SerializeField] bool m_findWalkableOnBlockedGoal = true;
 
         PathfinderPriorityQueuePool m_priorityQueuePool;
         PathfinderCloseListPool m_closeListPool;
@@ -105,17 +106,27 @@ namespace DSNavigation
             m_pathResultPool = new Vector2Int[m_pathResultPoolMaxCapacity];
         }
 
-        public bool FindPath(in JPSGridInfoFaster jpsGrid, in Vector2Int start, in Vector2Int end, ref LinkedList<Vector2> outShortestPath)
+        public bool FindPath(in JPSGridInfoFaster jpsGrid, in Vector2 start, in Vector2 end, ref LinkedList<Vector2> outShortestPath)
         {
             Assert.IsTrue(outShortestPath.Count == 0, "outShortestPath must be cleared");
 
             uint tempOutPathSize = 0;
 
+            bool bEndPointBlocked = false;
+            Vector2Int startPointIdx = jpsGrid.GetNodeIdx(start);
+            Vector2Int endPointIdx = jpsGrid.GetNodeIdx(end);
+            if(m_findWalkableOnBlockedGoal && jpsGrid.GetBlockAt((uint)endPointIdx.x, (uint)endPointIdx.y))
+            {
+                jpsGrid.TryFindClosestPointIdx(endPointIdx, out endPointIdx);
+                bEndPointBlocked = true;
+            }
+
+
             bool isPathFound = FindPath_UnsafeInternal(
                 jpsGrid.m_gridMapPathfinderInfo,
                 m_priorityQueuePool,
                 m_closeListPool,
-                start, end, 
+                 startPointIdx, endPointIdx, 
                 ref m_pathResultPool, ref tempOutPathSize);
 
 
@@ -132,7 +143,14 @@ namespace DSNavigation
                     Vector2 sensingEndPos = jpsGrid.GetNodeCenter(
                         (uint)m_pathResultPool[sensingEndIdx].x, (uint)m_pathResultPool[sensingEndIdx].y);
 
-                    outShortestPath.AddFirst(sensingStartPos);
+                    if(bEndPointBlocked)
+                    {
+                        outShortestPath.AddFirst(jpsGrid.GetNodeCenter((uint)endPointIdx.x, (uint)endPointIdx.y));
+                    }
+                    else
+                    {
+                        outShortestPath.AddFirst(end);
+                    }
 
                     while(sensingEndIdx < tempOutPathSize)
                     {
@@ -160,7 +178,7 @@ namespace DSNavigation
                         }
                     }
 
-                    outShortestPath.AddFirst(sensingEndPos);
+                    outShortestPath.AddFirst(start);
                 }
                 else
                 {

@@ -55,8 +55,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     bool isPathFound = m_jpsPathFinderFaster.FindPath
                         (m_jpsGridInfoFaster,
-                        m_jpsGridInfoFaster.GetNodeIdx(m_start),
-                        m_jpsGridInfoFaster.GetNodeIdx(m_goal),
+                        m_start,
+                        m_goal,
                         ref m_fasterPath);
                 }
                 watch.Stop();
