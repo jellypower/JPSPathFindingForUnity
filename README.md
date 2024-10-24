@@ -32,6 +32,11 @@ https://github.com/jellypower/JPSPathFindingForUnity/releases/tag/1.0.0
 * 2D project available
 * Runtime block/non-blocking is possible
 
+## Note
+* Because of Readability, The native(c++) Code of JPSPathFinderFaster is not optimized for Debug build.
+* However, the code was designed to benefit from compiler optimization.
+* Therefore, Release builds can deliver 7 to 8 times the performance of Debug builds.
+
 ## Rreference
 https://github.com/jellypower/JPSPathFinderFaster.git - C++/dll base pathfinder algorithm.
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp - For previous version of JPS pathfinder
