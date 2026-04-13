@@ -1,0 +1,9 @@
+Copyright (c) 2026 Dongcheol Shin. All rights reserved.
+
+This repository is provided for portfolio and reference purposes only.
+
+No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, or sell any part of this code, in whole or in part, without explicit prior written permission from the author.
+
+You may view and study the code for personal, non-commercial purposes only.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
